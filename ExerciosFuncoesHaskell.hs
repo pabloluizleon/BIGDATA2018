@@ -1,142 +1,121 @@
 module Main where
 
 {-
--- Exercicio 2
--- Faça uma função mult3  x que retorne True caso a entrada seja múltiplo de 3 e False caso contrário.
+Exercício 01: Crie uma função ehTriangulo que determina se três lados x, y, z podem formar um triângulo.
 -- Autor: Pablo L. Leon
--- Data: 03/03/2018
+-- Data: 10/03/2018
 -}
-mult3 :: Integer -> Bool
-mult3 var = if mod var 3 == 0 then True else False
+ehTriangulo :: Double -> Double -> Double -> Bool
+ehTriangulo x y z | (x + y) > z = True
+                  | (x + z) > y = True
+                  | (y + z) > x = True
+                  | otherwise = False
 
 {-
--- Exercicio 3
--- Faça uma função mult5  x que retorne True caso a entrada seja múltiplo de 5 e False caso contrário.
+Exercício 02: Crie uma função tipoTriangulo que determina o tipo do triângulo formado pelos três lados x, y, z.
 -- Autor: Pablo L. Leon
--- Data: 03/03/2018
+-- Data: 10/03/2018
 -}
-mult5 :: Integer -> Bool
-mult5 var = if mod var 5 == 0 then True else False
+tipoTriangulo :: Double -> Double -> Double -> String
+tipoTriangulo x y z | (x == y)&&(x == z) = "Tipo: Triangulo Equilatero"
+                    | (x == y)||(x == z) = "Tipo: Triangulo Isosceles"
+                    | otherwise = "Tipo: Triangulo Escaleno"
 
 {-
--- Exercicio 4
--- Faça uma função mult35 x que retorne True caso a entrada seja múltiplo de 3 e 5 e False caso contrário.
+Exercício 03: Implemente uma função que faz a multiplicação etíope entre dois números.
 -- Autor: Pablo L. Leon
--- Data: 03/03/2018
+-- Data: 10/03/2018
 -}
-mult35 :: Integer -> Bool
-mult35 var = if mod var 5 == 0 && mod var 3 == 0 then True else False
 
-{-
--- Exercicio 5
--- Faça um programa que retorne True caso a entrada seja menor que -1 ou (maior que 1 E múltiplo de 2), e False caso contrário.
--- Autor: Pablo L. Leon
--- Data: 03/03/2018
--}
-exer5 :: Integer -> Bool
-exer5 var 
-  | var < -1 || (var > 1 && mod var 2 == 0) = True
-  | otherwise = False
+par :: Integer -> Bool
+par a = (a `rem` 2 == 0)
+
+multicacaoEtiope :: Integer -> Integer -> Integer
+multicacaoEtiope 1 n = n
+multicacaoEtiope m n
+    | par m = multicacaoEtiope (m`div`2) (n*2)
+    | otherwise = multicacaoEtiope (m `div` 2) (n*2) + n
+
 
 
 {-
--- Exercicio 6
--- Faça uma função que recebe um tipo Integer e retorna ele dividido por 2
+Exercício 04: Faça uma função que determine se um número é primo.
 -- Autor: Pablo L. Leon
--- Data: 03/03/2018
+-- Data: 10/03/2018
 -}
---(Num a) => Integer -> a
-exer6 :: Integer -> Double
-exer6 x = fromIntegral(x) 
+ehPrimo :: Integer -> Bool
+ehPrimo 1 = False
+ehPrimo 2 = True
+ehPrimo x = ehPrimo2 (x) (x-1)
+
+ehPrimo2 :: Integer -> Integer -> Bool
+ehPrimo2 x 2 = nDivide x 2
+ehPrimo2 x y = (nDivide x y) && (ehPrimo2 (x) (y-1))
+
+nDivide :: Integer -> Integer -> Bool
+nDivide a b = (a `rem` b /=0)
 
 {-
--- Exercicio 7
--- Faça uma função que receba um ângulo a e retorne uma tupla contendo o seno da metade desse ângulo utilizando a identidade:
-sin (x/2) = +- sqrt((1-cos(x))/2)
+Exercício 05: Faça uma função que calcule a soma dos dígitos de um número.
 -- Autor: Pablo L. Leon
--- Data: 03/03/2018
+-- Data: 10/03/2018
 -}
-
-exer7 :: Double -> (Double,Double)
-exer7 result = (cos1, cos2)
-  where
-    cos1 = -sqrt(cosenu)
-    cos2 = sqrt(cosenu)
-    cosenu = 1-(cos(result)/2)
-{-
--- Exercicio 8
--- Crie uma lista de anos bissextos desde o ano 1 até o atual.
--- Autor: Pablo L. Leon
--- Data: 06/03/2018
--}
-listabissexto = [x | x <- [1..2018], (x `mod` 400 == 0) || ((x `mod` 4 == 0) && (x `mod` 100 /= 0)) ]
+soma :: Integer -> Integer
+soma 0 = 0
+soma x = (x `mod` 10) + soma (x `div` 10)
 
 {-
--- Exercicio 9
--- Encontre os 10 primeiros anos bissextos.
+Exercício 06: Faça uma função que calcule a persistência aditiva de um número.
 -- Autor: Pablo L. Leon
--- Data: 06/03/2018
+-- Data: 10/03/2018
 -}
-listTop10bissextos :: [Integer]
-listTop10bissextos = take 10 $ listabissexto
+persistenciaAditiva :: Integer -> Integer
+persistenciaAditiva x
+    | (x == 0 || x == 1 || x == 2 || x == 3 || x == 4 || x == 5 || x == 6 || x == 7 || x == 8 || x == 9) = 0
+    | otherwise = 1 + persistenciaAditiva (soma x)
+
+
 
 {-
--- Exercicio 9.a
--- Encontre os 10 últimos anos bissextos (dica: use a função length para determinar o tamanho da lista).
+Exercício 07: Faça uma função que calcule o coeficiente binomial de (m,n).
 -- Autor: Pablo L. Leon
--- Data: 06/03/2018
+-- Data: 10/03/2018
 -}
-listLast10bissextos :: [Integer]
-listLast10bissextos = drop ((length $ listabissexto) - 10) $ listabissexto
-{-
--- Exercicio 10
--- Crie uma tupla em que o primeiro elemento tem metade dos anos bissextos e o segundo elemento a outra metade.
--- Autor: Pablo L. Leon
--- Data: 06/03/2018
--}
-exer10 :: [Integer] -> ([Integer], [Integer])
-exer10 listaAnos = splitAt (((length listaAnos) + 1) `div` 2) listaAnos
+coBinomial :: Integer -> Integer -> Integer
+coBinomial x 0 = 1
+coBinomial 0 y = 0
+coBinomial x y =   (x `div` y) * (coBinomial (x-1) (y-1))
+
 
 {-
--- Exercicio 11
--- Crie um concatenador de strings que concatena duas strings separadas por espaço.
+Exercício 08: Faça uma função que calcule o elemento (i,j) do triângulo de pascal.
 -- Autor: Pablo L. Leon
--- Data: 07/03/2018
+-- Data: 10/03/2018
 -}
-exer11 :: String -> String -> String
-exer11 str1 str2 = str1 ++ " " ++ str2
-
-{-
--- Exercicio 12
--- Dada a string “0123456789”, crie uma lista com os dígitos em formato Integer.
--}
-exer12 :: String -> [Integer]
-exer12 listaNum = map (read .(:"")) listaNum :: [Integer]
+trianguloPascal :: Integer -> Integer -> Integer
+trianguloPascal _ 0 = 1
+trianguloPascal x 1 = x
+trianguloPascal x y
+    | x > y = (trianguloPascal (x-1) (y-1)) + (trianguloPascal (x-1) (y))
+    | x == y = 1
+    | otherwise = error "Não é possível calcular com esses coeficientes"
 
 -- |'main' executa programa principal
 main :: IO ()
 main = do
-    print ("Exercicio 2")
-    print (mult3 5)
-    print ("Exercicio 3")
-    print (mult5 25)
-    print ("Exercicio 4")
-    print (mult35 19)
-    print ("Exercicio 5")
-    print (exer5 (-10))
-    print ("Exercio 6")
-    print (exer6 10)
-    print ("Exercicio 7")
-    print (exer7 10)
-    print ("Exercicio 8")
-    print (listabissexto)
-    print ("Exercicio 9")
-    print (listTop10bissextos)
-    print ("Exercicio 9.a")
-    print (listLast10bissextos)
-    print ("Exercicio 10")
-    print (exer10 listabissexto)
-    print ("Exercicio 11")
-    print (exer11 "Pablo" "UFABC S2")
-    print ("Exercicio 12")
-    print (exer12 "0123456789")
+    print ("Exercicio 1 - ehTriangulo")
+    print (ehTriangulo 10 10 11)
+    print ("Exercicio 2 - Tipo de Triangulo")
+    print (tipoTriangulo 12 11 10)
+    print ("Exercicio 3 - Multiplicacao Etiope")
+    print (multicacaoEtiope 2 3)
+    print ("Exercicio 4 - Se o numeor e primo")
+    print (ehPrimo 14)
+    print ("Exercicio 5 - Soma dos digitos de um numero")
+    print (soma 10)
+    print ("Exercicio 6 - Persistencia aditiva de um numero")
+    print (persistenciaAditiva 11)
+    print ("Exercicio 7 - Coeficiente binomial de (x,y)")
+    print (coBinomial 2 5)
+    print ("Exercicio 8 - Calculo do triangulo de pascal")
+    print (trianguloPascal 3 3)
