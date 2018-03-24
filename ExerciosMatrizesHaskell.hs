@@ -25,25 +25,16 @@ Exercício 02: Faça uma função que calcule a soma da diagonal principal de um
 -- Autor: Pablo L. Leon
 -- Data: 23/03/2018
 -}
-soma :: [[Int]] -> Int
-soma [[]] = 0
-soma x = sum (somaDiagonal x)
-
-somaDiagonal :: [[Int]] -> [Int]
-somaDiagonal x = zipWith (!!) x [0..]
-
+somaDiagonalPrincipal :: [[Integer]] -> Integer
+somaDiagonalPrincipal matriz = foldl (+) 0 [matriz !! x !! x | x <- [0..(length matriz - 1)]]
 
 {-
 Exercício 03: Faça uma função que calcule a soma da diagonal secundária de uma matriz.
 -- Autor: Pablo L. Leon
 -- Data: 23/03/2018
 -}
-somasec :: [[Int]] -> Int
-somasec [[]] = 0
-somasec x = sum (somadiagonalsecundaria x)
-
-somadiagonalsecundaria :: [[Int]] -> [Int]
-somadiagonalsecundaria x = zipWith (!!) x (reverse [0.. (length (x !! 0)-1)])
+somaDiagonalSecundaria :: [[Integer]] -> Integer
+somaDiagonalSecundaria matriz = foldl (+) 0 [matriz !! x !! (length matriz - 1 - x) | x <- [0..(length matriz - 1)]]
 
 
 
@@ -54,13 +45,9 @@ main = do
     print (geraMatriz 3)
     
     print ("Exercicio 2 - Calcula soma diagonal principal da matriz")
-    let matriz1 = [[]]
-    print (soma matriz1)
-    let matriz2 = [[3,3], [3,3], [3,3]]
-    print(soma matriz2)
+    print(somaDiagonalPrincipal [[1,0,0],[0,1,0],[0,0,1]])
+    print(somaDiagonalPrincipal [[1,0,0],[0,2,0],[0,0,3]])
 
     print ("Exercicio 3 - Calcula soma diagonal secundaria da matriz")
-    let matriz1 = [[]]
-    print (soma matriz1)
-    let matriz2 = [[3,2], [3,2], [3,2]]
-    print(soma matriz2)
+    print(somaDiagonalSecundaria [[0,0,1],[0,1,0],[0,0,1]])
+    print(somaDiagonalSecundaria [[0,0,1],[0,2,0],[0,0,3]])
